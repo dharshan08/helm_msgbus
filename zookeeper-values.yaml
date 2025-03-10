@@ -1,0 +1,28 @@
+image:
+  registry: docker.io
+  repository: bitnami/zookeeper
+  tag: 3.9.3-debian-12-r8
+  pullPolicy: IfNotPresent
+
+auth:
+  enabled: false # Disable authentication (for simplicity)
+
+persistence:
+  enabled: false # Disable persistence for ephemeral data (enable if needed)
+
+resources:
+  requests:
+    memory: 512Mi
+    cpu: 250m
+
+service:
+  type: ClusterIP
+  ports:
+    client: 2181
+
+extraEnvVars:
+  - name: ZOO_TICK_TIME
+    value: "2000"
+  - name: LOG_DIR
+    value: "/tmp/logs"
+
