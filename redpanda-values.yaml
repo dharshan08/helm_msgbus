@@ -1,0 +1,38 @@
+replicaCount: 1
+
+image:
+  registry: docker.redpanda.com
+  repository: redpandadata/console
+  pullPolicy: IfNotPresent
+  tag: "v2.2.3"  # Specify the version to avoid ambiguity
+
+serviceAccount:
+  create: false
+
+service:
+  type: ClusterIP
+  port: 8080
+
+ingress:
+  enabled: true
+  className: "traefik"
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls: "false"
+  hosts:
+    - host: redpanda.virtual33.myguest.virtualbox.org
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
+ 
+console:
+  config:
+    kafka:
+      brokers:
+        - kafka:9092  # Update this to match your Kafka service name
+
+extraEnv:
+  - name: KAFKA_BROKERS
+    value: "kafka:9092" 
+
