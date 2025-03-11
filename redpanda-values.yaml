@@ -35,4 +35,3 @@ console:
 extraEnv:
   - name: KAFKA_BROKERS
     value: "kafka:9092" 
-
