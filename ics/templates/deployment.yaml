@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ics
+  labels:
+    app: ics
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ics
+  template:
+    metadata:
+      labels:
+        app: ics
+    spec:
+      containers:
+        - name: ics
+          image: nexus3.o-ran-sc.org:10001/o-ran-sc/nonrtric-plt-informationcoordinatorservice:1.5.0
+          ports:
+            - containerPort: 8083
+            - containerPort: 8434
+          volumeMounts:
+            - name: config-volume
+              mountPath: /opt/app/information-coordinator-service/config/application.yaml
+              subPath: application.yaml
+      volumes:
+        - name: config-volume
+          configMap:
+            name: ics-config
+

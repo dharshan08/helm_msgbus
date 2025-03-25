@@ -1,0 +1,49 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ics-config
+data:
+  application.yaml: |
+    spring:
+      profiles:
+        active: prod
+      main:
+        allow-bean-definition-overriding: true
+      aop:
+        auto: false
+    springdoc:
+      show-actuator: true
+    management:
+      endpoints:
+        web:
+          exposure:
+            include: "loggers,logfile,health,info,metrics,threaddump,heapdump"
+    logging:
+      level:
+        ROOT: ERROR
+        org.springframework: ERROR
+        org.springframework.data: ERROR
+        org.springframework.web.reactive.function.client.ExchangeFunctions: ERROR
+        org.oransc.ics: DEBUG
+      file:
+        name: /var/log/information-coordinator-service/application.log
+    server:
+       port: 8434
+       http-port: 8083
+       ssl:
+          key-store-type: JKS
+          key-store-password: policy_agent
+          key-store: /opt/app/information-coordinator-service/etc/cert/keystore.jks
+          key-password: policy_agent
+          key-alias: policy_agent
+    app:
+      webclient:
+        trust-store-used: false
+        trust-store-password: policy_agent
+        trust-store: /opt/app/information-coordinator-service/etc/cert/truststore.jks
+        http.proxy-host:
+        http.proxy-port: 0
+      vardata-directory: /var/information-coordinator-service
+      auth-token-file:
+
+

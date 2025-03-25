@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: control-panel
+  labels:
+    app: control-panel
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: control-panel
+  template:
+    metadata:
+      labels:
+        app: control-panel
+    spec:
+      initContainers:
+        - name: wait-for-ngw
+          image: busybox
+          command: ['sh', '-c', 'until nc -z nonrtric-gateway 9090; do echo waiting for nonrtric-gateway; sleep 2; done']
+      containers:
+        - name: control-panel
+          image: nexus3.o-ran-sc.org:10001/o-ran-sc/nonrtric-controlpanel:2.5.0
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - name: config-volume
+              mountPath: /etc/nginx/nginx.conf
+              subPath: nginx.conf
+      volumes:
+        - name: config-volume
+          configMap:
+            name: controlpanel-nginx-config
+

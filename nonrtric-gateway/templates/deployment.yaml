@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nonrtric-gateway
+  labels:
+    app: nonrtric-gateway
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nonrtric-gateway
+  template:
+    metadata:
+      labels:
+        app: nonrtric-gateway
+    spec:
+      initContainers:
+        - name: wait-for-ics
+          image: busybox
+          command: ['sh', '-c', 'until nc -z ics 8083; do echo waiting for ics; sleep 2; done']
+      containers:
+      containers:
+        - name: nonrtric-gateway
+          image: nexus3.o-ran-sc.org:10001/o-ran-sc/nonrtric-gateway:1.2.0
+          ports:
+            - containerPort: 9090
+          volumeMounts:
+            - name: config-volume
+              mountPath: /opt/app/nonrtric-gateway/config/application.yaml
+              subPath: application.yaml
+      volumes:
+        - name: config-volume
+          configMap:
+            name: ngw-config
+

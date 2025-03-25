@@ -1,4 +1,8 @@
 ## MinIO Deployment Configuration using Bitnami Chart (without TLS)
+image:
+  registry: quay.io
+  repository: minio/minio
+  pullPolicy: IfNotPresent
 
 # 1. MinIO Access Credentials
 auth:

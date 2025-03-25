@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kafka-config
+  namespace: smo
+data:
+  strimzi.properties: |
+    # Kafka Configuration
+    broker.id=1
+    log.dirs=/tmp/logs
+    zookeeper.connect=zookeeper.smo:2181
+
