@@ -17,7 +17,7 @@ spec:
       initContainers:
         - name: wait-for-ngw
           image: busybox
-          command: ['sh', '-c', 'until nc -z nonrtric-gateway 9090; do echo waiting for nonrtric-gateway; sleep 2; done']
+          command: ['sh', '-c', 'until nc -z nonrtric-gateway 9098; do echo waiting for nonrtric-gateway; sleep 2; done']
       containers:
         - name: control-panel
           image: nexus3.o-ran-sc.org:10001/o-ran-sc/nonrtric-controlpanel:2.5.0

@@ -8,9 +8,11 @@ spec:
   ports:
     - protocol: TCP
       port: 8083
+      name: http
       targetPort: 8083
     - protocol: TCP
       port: 8434
       targetPort: 8434
+      name: https
   type: ClusterIP  # Change to NodePort or LoadBalancer if external access is needed
 
