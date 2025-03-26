@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: kafka
-  namespace: kafka
+  namespace: opa
 spec:
   replicas: 1
   selector:
@@ -23,6 +23,8 @@ spec:
           env:
             - name: LOG_DIR
               value: "/tmp/logs"
+            - name: KAFKA_ZOOKEEPER_CONNECT
+              value: "zookeeper-0.zookeeper.opa.svc.cluster.local:2181"
           volumeMounts:
             - name: kafka-config
               mountPath: /tmp/kafka/

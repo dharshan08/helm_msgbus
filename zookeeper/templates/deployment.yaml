@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: zookeeper
-  namespace: kafka
+  namespace: opa
   labels:
     app: zookeeper
 spec:
